@@ -1,6 +1,41 @@
 \section{Motivação e Contextualização}
+A Internet das Coisas (em inglês, Internet of Things ou IoT) é um conceito em grande expansão atualmente (TODO: REFERÊNCIA). As máquinas de IoT são em sua grande maioria sensores, microcontroladores e sistemas embarcados \-- em suma, sistemas computacionais pequenos, que gastam pouca energia e possuem baixo poder computacional. 
+
+A popularização da Internet das Coisas ocorreu tendo como principais focos o baixo consumo energético, leveza computacional (TODO: LEVEZA?), e solução de diversos problemas de viabilidade em sistemas críticos como, por exemplo, máquinas que precisam operar em ambientes de altas temperatura e pressão (TODO: REFERÊNCIA).
+
+Esse desenvolvimento acelerado, no entanto, deixou de lado um aspecto importante de qualquer sistema computacional: segurança. Logo, percebeu-se uma gama de falhas de segurança em divesos protocolos de comunicação (TODO: REFERÊNCIA) projetados para sistemas IoT, bem como a falta de preocupação com criptografia e outras práticas de segurança.
+
+Essa crise de segurança despertou uma enorme necessidade de protocolos seguros, como aqueles mais tradicionais (TODO: REFERÊNCIA) \-- utilizados há anos fora da Internet das Coisas \-- mas que ainda possuíssem as propriedades de baixos custos energético e computacional, intrínsecas à IoT.
+
+
+\subsection{Modelo Publish/Subscribe}
+A Internet das Coisas, como o próprio nome dá a entender, faz parte da Internet, ou seja, utiliza os protocolos TCP/IP para comunicação (TODO: REFERÊNCIA), no entanto, protocolos como HTTP e HTTPS, largamente utilizado nas demais camadas da rede, não são adequados para a maioria das aplicações IoT devido a restrições como baixa largura de banda e alta latência (TODO: REFERÊNCIA). O modelo Publish/Subscribe é um dos modelos de comunicação mais utilizados por dispositivos IoT, sobretudo em redes de sensores (TODO: REFERÊNCIA).
+
+Nesse modelo os clientes, máquinas que se comunicam, se conectam a um corretor, ou broker em inglês, e se inscrevem (TODO: subscribe) em tópicos. Os clientes podem ainda publicar (TODO: publish) mensagens em um ou mais tópicos, e todos os clientes que estiverem inscritos nesses tópicos receberão as mensagens.
+
+TODO: IBAGENS!
+
+Esse modelo permite que apenas o broker despenda uma quantidade considerável de recursos energéticos e computacionais \-- para armazenar as listas dos clientes inscritos, garantir níveis de qualidade de serviço, dentre outras tarefas, \-- enquanto os clientes somente enviam e recebem as mensagens, não precisando nem mesmo checar os tópicos ativamente (TODO: MELHORAR, REFERÊNCIA, BUSY WAIT).
+
+
+\subsection{MQTT}
+O MQTT, Message Queuing Telemetry Transfer, é um protocolo publish/subscribe criado em 1999 por Andy Stanford-Clark e Arlen Nipper para [], e é o que usaremos para estudo de caso
+
+-qos
+-achou mercado agora com iot
+
+
+\subsection{DoS}
+- sigla
+- histórico
+- iot
+- mqtt (publish/subscribe
+
+
 
 \section{Objetivos}
+
+
 
 \section{Organização}
 
