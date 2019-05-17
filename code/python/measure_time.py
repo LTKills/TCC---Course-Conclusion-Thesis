@@ -2,17 +2,27 @@ import paho.mqtt.client as mqtt
 import time
 from threading import Thread
 
-curr_time = time.time()
 
 def on_message(client, userdata, message):
     print(message)
-    print(time.time() - curr_time)
+
+
+def sender(host, port, payload):
+    print('Sender>> Starting...')
+    client = mqtt.Client('measure_sender')
+    client.connect(host, port)
+    print('Sender>> Connected')
+    while True:
+        time.sleep(1)
+        client.publish('ping_t', payload)
+        print('Sender>> Published ' + payload)
 
 
 def recver(host, port):
     print('Recver>> Starting...')
+    start_time = time.time()
 
-    client = mqtt.Client('garoto_maroto')
+    client = mqtt.Client('measure_recver')
     client.on_message = on_message
     client.connect(host, port)
     print('Recver>> Connected')
@@ -30,5 +40,14 @@ if __name__ == '__main__':
     port = 1883
     payload = 'test'
 
-    recver(host, port)
+    sender = Thread(target=sender, args=(host, port, payload))
+    recver = Thread(target=recver, args=(host, port))
+    sender.start()
+    recver.start()
+
+    while True:
+        pass
+
+    sender.stop()
+    recver.stop()
 
