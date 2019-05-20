@@ -4,7 +4,8 @@ from threading import Thread
 
 
 def on_message(client, userdata, message):
-    print(message)
+    # print(message)
+    print('Recver>> Received message')
 
 
 def sender(host, port, payload):
@@ -20,7 +21,6 @@ def sender(host, port, payload):
 
 def recver(host, port):
     print('Recver>> Starting...')
-    start_time = time.time()
 
     client = mqtt.Client('measure_recver')
     client.on_message = on_message
