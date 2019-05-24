@@ -1,8 +1,112 @@
 \section{O Problema}
 
-\section{Atividades Realizadas}
+\subsection{Segurança mqtt no mundo}
+
+https://www.researchgate.net/publication/322059897_Attack_scenarios_and_security_analysis_of_MQTT_communication_protocol_in_IoT_system/download
+
+
+You can pass a user name and password with an MQTT packet in V3.1 of the protocol. Encryption across the network can be handled with SSL, independently of the MQTT protocol itself (it is worth noting that SSL is not the lightest of protocols, and does add significant network overhead). Additional security can be added by an application encrypting data that it sends and receives, but this is not something built-in to the protocol, in order to keep it simple and lightweight. (mqtt.org)
+(TODO: TRADUZIR???)
+
+- artefatos comuns de segurança adicionam muito overhead, então geralmente não são implementados
+
+
+
+\section{SYN flood}
+O ataque de SYN flood já é bem conhecido e explora uma vulnerabilidade tradicional no processo de \emph{handshaking} do protocolo TCP (Transmission Control Protocol) com vistas a impedir que o alvo faça conexões legítimas, causando assim uma negação de serviço.
+
+
+\subsection{TCP three-way handshake}
+O TCP three-way (TODO: TRADUZIR?) handshake é um processo que ocorre durante a fase de conexão entre duas máquinas, garantindo que ambas estão a par da conexão e prontas para trocar mensagens.
+
+Nesse processo há a troca de três mensagens entre cliente e servidor (chamaremos de cliente a máquina que inicia a conexão e servidor a que aceita novas conexões):
+
+
+
+\begin{enumerate}
+  \item \textbf{SYN}: Um pacote de sincronização é enviado do cliente para o servidor, sinalizando sua intenção de se conectar.
+  \item \textbf{SYN/ACK}: O servidor responde, reconhecendo a conexão.
+  \item \textbf{ACK}: O cliente avisa o servidor de que recebeu o pacote SYN/ACK e a conexção é estabelecida.
+  (TODO: VIDE IBAGENS)
+\end{enumerate}
+
+
+
+(TODO: IBAGENS)
+
+
+
+\subsection{Vulnerabilidade}
+
+O \emph{SYN flood} consiste em mandar uma série de pacotes SYN para um servidor e, ao receber os respectivos pacotes SYN/ACK, simplesmente ignorá-los. Dessa maneira, o servidor ficará esperando pela resposta ACK que nunca chegará. Eventualmente o tempo limite de espera do servidor para cada conexão expirará mas, logo em seguida, o atacante iniciará novas conexões, o que acaba por manter o servidor incapaz de receber conexões legítimas \-- caracterizando a negação de serviço do servidor. (TODO: TEMPOS VERBAIS, EXPLICAÇÃO, REFERÊNCIAS)
+
+
+(TODO: IBAGENS?)
+
+
+\subsection{Ataque ao Mosquitto Broker}
+O \emph{SYN flood} é um ataque que explora uma vulnerabilidade do protocolo TCP, não no MQTT. No entanto, o protocolo MQTT depende do TCP para realizar conexões e trocar mensagens. Sendo assim, é importante notar que toda e qualquer vulnerabilidade encontrada no protocolo TCP pode também ser utilizada para atacar sistemas baseados em MQTT.
+
+O ambiente utilizado para realizar o ataque foi:
+\begin{enumerate}
+    \item Mosquitto MQTT Broker (TODO: LINK/REFERÊNCIA) em uma máquina Linux
+    
+    \item Máquina atacante, também Linux, na mesma rede LAN que o Broker
+    
+    \item hping3(TODO: LINK/REFERÊNCIA): ferramenta desenvolvida pelo grupo (TODO: GRUPO?) Kali para a criação, envio e análise de pacotes TCP/IP
+\end{enumerate}
+
+O hping3 (TODO: COMO ESCREVER?) foi escolhido em detrimento de outras implementações diretas do \emph{SYN flood} por se mostrar uma ferramenta de fácil uso e alta versatilidade. 
+
+
+
+
+\begin{lstlisting}[language=bash]
+# hping3 -c 15000 -d 120 -S -p 80 --flood --rand-source 192.168.1.159
+\end{lstlisting}
+
+
+Os parâmetros especificados são:
+
+\begin{enumerate}
+    \item \textbf{-c}: Número de pacotes a serem enviados.
+    \item \textbf{-d}: Tamanho, em bytes, de cada pacote.
+    \item \textbf{-S}: Especifica que os pacotes contém a flag SYN.
+    \item \textbf{-p}: Porta a receber o ataque. O servidor não conseguirá receber outras conexões nessa porta
+    \item \textbf{--flood}: Especifica que trata-se de um ataque de \emph{flooding}, hping3 enviará os pacotes o mais rápido possível (TODO: VERIFICAR ISSO)
+    \item \textbf{192.168.0.2}: IP to servidor (máquina alvo)
+\end{enumerate}
+
+
+
+
+\subsection{SYN flood e IP spoofing(TODO: APÊNDICE?)}
+
+O \emph{SYN flood} é um ataque facilmente mitigável: uma proposta amplamente aceita e de fácil implementação é a limitação do número de conexões permitidas para um mesmo cliente. Assim, após determinado número de conexões abertas com um determinado cliente, todas as outras tentativas de conexão seriam automaticamente rejeitadas pelo servidor.
+
+Como essa solução se baseia principalmente no conhecimento do IP do cliente malicioso, é possível atrelar ao ataque um \emph{IP spoofing} (TODO: REFERÊNCIA, TRADUÇÃO?) com vistas a mascarar o IP da máquina atacante, tornando essa solução ineficaz.
+
+(TODO: EXPLICAR MELHOR, PRA ONDE VÃO OS SYN/ACKS?)
+
+Simulamos também um ataque \emph{SYN flood} com IP spoofing:
+
+\begin{lstlisting}[language=bash]
+# hping3 -c 15000 -d 120 -S -p 80 --flood --rand-source 192.168.0.2
+\end{lstlisting}
+
+A opção \textbf{--rand-source} permite aleatorizar o IP dos pacotes enviados.
+(TODO: CÓDIGO?, O QUE MAIS?)
+
+
+\section{Ataque 2}
+
+
+\section{Ataque 3}
+
 
 \section{Resultados}
+
+
 
 \section{Dificuldades e Limitações}
 
