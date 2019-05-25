@@ -3,15 +3,17 @@ A Internet das Coisas (em inglês, Internet of Things ou IoT) é um conceito em 
 
 A popularização da Internet das Coisas ocorreu tendo como principais focos o baixo consumo energético, leveza computacional (TODO: LEVEZA?), e solução de diversos problemas de viabilidade em sistemas críticos como, por exemplo, máquinas que precisam operar em ambientes de altas temperatura e pressão (TODO: REFERÊNCIA).
 
-Esse desenvolvimento acelerado, no entanto, deixou de lado um aspecto importante de qualquer sistema computacional: segurança. Logo, percebeu-se uma gama de falhas de segurança em divesos protocolos de comunicação (TODO: REFERÊNCIA) projetados para sistemas IoT, bem como a falta de preocupação com criptografia e outras práticas de segurança.
+Esse desenvolvimento acelerado, no entanto, deixou de lado um aspecto importante de qualquer sistema computacional: segurança. Logo, percebeu-se uma gama de falhas de segurança em diversos protocolos de comunicação (TODO: REFERÊNCIA) projetados para sistemas IoT, bem como a falta de preocupação com criptografia e outras práticas de segurança.
 
-Essa crise de segurança despertou uma enorme necessidade de protocolos seguros, como aqueles mais tradicionais (TODO: REFERÊNCIA) \-- utilizados há anos fora da Internet das Coisas \-- mas que ainda possuíssem as propriedades de baixos custos energético e computacional, intrínsecas à IoT.
+Tamanha era a magnitude essa crise, logo viu-se uma enorme necessidade de módulos e adendos de segurança nesses protocolos, tal como há para protocolos mais tradicionais (TODO: REFERÊNCIA) \-- utilizados há anos fora do contexto de Internet das Coisas \-- mas, ainda, com o desafio de que possuíssem as propriedades de baixos custos energético e computacional, tão importantes para os dispositivos de IoT.
 
 
-\subsection{Modelo Publish/Subscribe}
-A Internet das Coisas, como o próprio nome dá a entender, faz parte da Internet, ou seja, utiliza os protocolos TCP/IP para comunicação (TODO: REFERÊNCIA), no entanto, protocolos como HTTP e HTTPS, largamente utilizado nas demais camadas da rede, não são adequados para a maioria das aplicações IoT devido a restrições como baixa largura de banda e alta latência (TODO: REFERÊNCIA). O modelo Publish/Subscribe é um dos modelos de comunicação mais utilizados por dispositivos IoT, sobretudo em redes de sensores (TODO: REFERÊNCIA).
+\subsection{Protocolos em IoT e Modelo Publish/Subscribe}
+A Internet das Coisas, como o próprio nome dá a entender, faz parte da Internet, ou seja, utiliza, em geral, os protocolos TCP/IP para comunicação (TODO: REFERÊNCIA). Se por um lado TCP/IP são comuns mesmo no contexto de IoT, por outro, protocolos como HTTP e HTTPS, largamente utilizados nas demais camada Web da rede, não o são.
 
-Nesse modelo os clientes, máquinas que se comunicam, se conectam a um corretor, ou broker em inglês, e se inscrevem (TODO: subscribe) em tópicos. Os clientes podem ainda publicar (TODO: publish) mensagens em um ou mais tópicos, e todos os clientes que estiverem inscritos nesses tópicos receberão as mensagens.
+Dessa forma, os protocolos utilizados para troca de dados na Web não se mostram adequados para a maioria das aplicações IoT, justamente devido a restrições como pouca largura de banda, latência, dentre outros (TODO: REFERÊNCIA).
+
+O modelo Publish/Subscribe é um dos modelos de comunicação mais largamente utilizados por dispositivos IoT, sobretudo em redes de sensores (TODO: REFERÊNCIA). Nesse modelo os clientes, máquinas que se comunicam, se conectam a um corretor, ou broker em inglês, e se inscrevem (TODO: subscribe) em tópicos. Os clientes podem ainda publicar (TODO: publish) mensagens em um ou mais tópicos, e todos os clientes que estiverem inscritos nesses tópicos receberão as mensagens.
 
 TODO: IBAGENS!
 
@@ -19,47 +21,46 @@ Esse modelo permite que apenas o broker despenda uma quantidade considerável de
 
 
 \subsection{MQTT}
-O MQTT, Message Queuing Telemetry Transfer, é um protocolo publish/subscribe criado em 1999 por Andy Stanford-Clark e Arlen Nipper para [], e é o que usaremos para estudo de caso
+Criado em 1999 por Andy Stanford-Clark e Arlen Nipper, o MQTT, Message Queuing Telemetry Transfer, é um protocolo publish/subscribe  que tem como principal objetivo baixa utilização de banda da rede. O MQTT encontrou um mercado promissor ainda recentemente, com a popularização da Internet das Coisas.
 
--qos
--achou mercado agora com iot
+- qos
+- control packet types (mqtt header)
+
+
+
 
 
 \subsection{DoS}
-- sigla
-- histórico
-- iot
-- mqtt (publish/subscribe
+Ataques de negação de serviço, em inglês Denial of Service, buscam desestabilizar um sistema de maneira que os clientes legítimos não consigam acessá-lo. Ataques DoS frequentemente utilizam ferramentas que realizam uma série requisições repetidas para o servidor alvo com vistas a ocupar canais de clientes legítimos e, assim, comprometer a disponibilidade do sistema.
+
+Apesar desse tipo de vulnerabilidade já ter sido explorada e estudada há anos, recentemente, por conta da popularização da Internet das Coisas, novos problemas relacionados a ela surgiram, sobretudo no que tange a IoT.
+
+
+\subsection{Mosquitto}
+O protocolo MQTT, assim como qualquer protocolo em redes de computadores, não é senão um conjunto de especificações padronizadas para comunicação de máquinas. Sendo assim, existem várias diferentes implementações do protocolo MQTT, cada qual com suas particularidades em relação a modos de armazenamento, algoritmos de decisão etc.
+
+O Mosquitto (TODO: REFERÊNCIA) é um projeto da organização Eclipse (TODO: REFERÊNCIA) que visa a implementar os componentes especificados no padrão do protocolo MQTT, dentre eles, destacam-se o corretor, Mosquitto broker, e o cliente, Paho.
+
+- como funciona??
+
+
+
+
+
 
 
 
 \section{Objetivos}
 
+- ataques DoS
+- implementar ataques
+- proof of concept de algumas ideias
+- vulnerabilidades antigas mas (possivelmente) ainda presentes
+- TCP SYN flooding
+- SSL apresenta grande overhead, por isso não vamos focar em ataques que exploram sistemas baseados em SSL
+
 
 
 \section{Organização}
 
-
-
-% Comando simples para exibir comandos Latex no texto
-\newcommand{\comando}[1]{\textbf{$\backslash$#1}}
-
-Este documento explica brevemente como trabalhar com a classe \LaTeX~\textit{icmc} para confeccionar trabalhos acadêmicos seguindo as normas da \sigla{ABNT}{Associação Brasileira de Normas Técnicas} e as \aspas{\textit{Diretrizes para apresentação de dissertações e teses da USP: documento eletrônico e impresso. Parte I (ABNT)}}, publicado pelo \sigla{SIBi}{Sistema Integrado de Bibliotecas} USP. O presente manual também atende as exigências prevista no regimento do Programa de Pós-graduação em \sigla{CCMC}{Ciências da Computação e Matemática Computacional} do \sigla{ICMC}{Instituto de Ciências Matemáticas e de Computação} da \sigla{USP}{Universidade de São Paulo}.
-
-
-A classe \textit{icmc} foi construída com base na última versão da classe \textit{abntex2} e do pacote \textit{abntex2cite}. Portanto, este documento exemplifica a elaboração de trabalho
-acadêmico (tese, dissertação e outros do gênero) produzido conforme a ABNT NBR
-14724:2011 \textit{Informação e documentação - Trabalhos acadêmicos - Apresentação}.
-
-Assim, é altamente recomendável que seja consultada a documentação do \textit{abntex2}\footnote{https://code.google.com/p/abntex2/downloads/list}. A classe \textit{abntex2} foi desenvolvida para facilitar a escrita de documentos seguindo as normas da ABNT no ambiente \LaTeX\;\cite{frasson:2005:classe_abnt}.
-
-Todo o trabalho de pesquisa e ajustes da presente classe \LaTeX~\emph{icmc} foram feitos pelo aluno mestrado do Programa de Pós-graduação em Ciência da Computação e Matemática Computacional, Humberto Lidio Antonelli, durante a confecção da sua monografia de qualificação.
-
-O requisito básico para utilização da classe \textit{icmc} é criar um documento desta classe com o comando
-\comando{documentclass[@parameters]\{icmc\}} e ter, no diretório de trabalho, o arquivo \emph{icmc.cls} presente. Entretanto, recomenda-se fortemente manter a estrutura de diretório inicial fornecida por este modelo.
-
-Os parâmetros possíveis utilizados pelo \comando{documentclass} são:
-\begin{description}
-\item[french, spanish, english, brazil] Adiciona o idioma para correta hifenização correta no documento. O último idioma declarado é o principal do documento. O valor padrão é \textbf{brazil}.
-\end{description}
 
