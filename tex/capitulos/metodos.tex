@@ -1,2 +1,40 @@
 
+\section{Message Queuing Telemetry Transport}
 
+Criado em 1999 por Andy Stanford-Clark e Arlen Nipper, o \sigla{Message Queuing Telemetry Transfer}{MQTT} é um protocolo que utiliza o modelo publish/subscribe e tem como principal objetivo a baixa utilização de banda da rede. O MQTT encontrou um mercado promissor ainda recentemente, com a popularização da Internet das Coisas.
+
+Os agentes do protocolo MQTT são o corretor, ou \textit{broker} em inglês, e os clientes. O broker é responsável por receber e enviar publicações, manter listas dos clientes inscritos em cada tópico, dentre outras atividades. Os clientes, por outro lado, possuem pouquíssimas responsabilidades nesse modelo --- eles devem apenas esperar pelas mensagens publicadas nos tópicos em que estão inscritos e, em alguns casos, mandar pacotes de confirmação de recebimento de mensagens do broker \cite{OasisMQTT}.
+
+No MQTT, a existência de um broker concentrador de tarefas permite que os clientes despendam pouquíssimos recursos.
+
+\section{Denial of Service}
+Ataques de negação de serviço, ou \sigla{DoS}{\textit{Denial of Service}}, buscam desestabilizar um sistema de forma que clientes legítimos não consigam acessá-lo. Ataques DoS frequentemente utilizam ferramentas que realizam uma série requisições repetidas para o servidor alvo com vistas a ocupar canais de clientes legítimos e, assim, comprometer a disponibilidade do sistema \cite{Douligeris2003}.
+
+Apesar desse tipo de vulnerabilidade já ter sido explorada e estudada há anos, recentemente, por conta da popularização da Internet das Coisas, novos problemas relacionados a ela surgiram, sobretudo no que tange a IoT.
+
+
+\section{Mosquitto}
+O protocolo MQTT, assim como qualquer protocolo em redes de computadores, não é senão um conjunto de especificações padronizadas para comunicação de máquinas. Sendo assim, existem várias diferentes implementações do protocolo MQTT, cada qual com suas particularidades em relação a modos de armazenamento, algoritmos de decisão etc.
+
+O Mosquitto \cite{Mosquitto}, projeto desenvolvido pela Eclipse Foundation \cite{Eclipse}, visa a implementar os componentes especificados no padrão do protocolo MQTT. Dentre eles, destacam-se o corretor, Mosquitto broker, e o cliente, Paho.
+
+O Mosquitto permite uma fácil utilização, basta baixá-lo e, em seguida, executar o seguinte comando (em máquinas Linux):
+
+\begin{lstlisting}[language=bash, caption=Execução Mosquitto broker]
+    $ mosquitto
+\end{lstlisting}
+
+Isso iniciará o broker, ouvindo na porta TCP 1883. É possível também especificar a porta através da opção \textbf{-p}. A listagem a seguir demonstra a execução do broker na porta 5050:
+
+\begin{lstlisting}[language=bash, caption=Execução Mosquitto broker na porta 5050]
+    $ mosquitto -p 5050
+\end{lstlisting}
+
+
+
+
+\section{Paho}
+
+O Paho é a implementação do cliente MQTT do projeto Mosquitto, também mantido pela Eclipse Foundation \cite{Paho}. A função do Paho é a de prover uma interface simples para a implementação de clientes MQTT, contando com funções que permitem conexão com o broker, inscrição em tópicos, publicações, dentre outras funcionalidades.
+
+O Paho é um projeto que conta com implementações equivalentes em uma série de diferentes linguagens de programação, como Python, Java, C/C++, JavaScript etc. Neste trabalho, usaremos a biblioteca Python do Paho, uma vez que os códigos aqui desenvolvidos utilizam essa mesma linguagem.

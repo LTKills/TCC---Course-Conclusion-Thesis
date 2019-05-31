@@ -1,47 +1,33 @@
 \section{Motivação e Contextualização}
-A Internet das Coisas (em inglês, Internet of Things ou IoT) é um conceito em grande expansão atualmente (TODO: REFERÊNCIA). As máquinas de IoT são em sua grande maioria sensores, microcontroladores e sistemas embarcados \-- em suma, sistemas computacionais pequenos, que gastam pouca energia e possuem baixo poder computacional. 
+A Internet das Coisas, em inglês, \sigla{IoT}{\textit{Internet of Things}}, é um paradigma em ascensão na computação. Ainda sem uma definição estabelecida, IoT se baseia na ideia da interação dos mundos físico e cibernético, através da conexão de dispositivos do nosso dia-a-dia à Internet, de forma que eles possam se comunicar e colaborar para realizar tarefas \cite{Al-Fuqaha2015Internet}. Na sua maioria, os dispositivos IoT serão sensores, microcontroladores e sistemas embarcados --- em suma, sistemas computacionais simples, que gastam pouca energia e possuem limitações de recursos computacionais e de largura de banda \cite{Atzori2010Internet}.
 
-A popularização da Internet das Coisas ocorreu tendo como principais focos o baixo consumo energético, leveza computacional (TODO: LEVEZA?), e solução de diversos problemas de viabilidade em sistemas críticos como, por exemplo, máquinas que precisam operar em ambientes de altas temperatura e pressão (TODO: REFERÊNCIA).
-
-Esse desenvolvimento acelerado, no entanto, deixou de lado um aspecto importante de qualquer sistema computacional: segurança. Logo, percebeu-se uma gama de falhas de segurança em diversos protocolos de comunicação (TODO: REFERÊNCIA) projetados para sistemas IoT, bem como a falta de preocupação com criptografia e outras práticas de segurança.
-
-Tamanha era a magnitude essa crise, logo viu-se uma enorme necessidade de módulos e adendos de segurança nesses protocolos, tal como há para protocolos mais tradicionais (TODO: REFERÊNCIA) \-- utilizados há anos fora do contexto de Internet das Coisas \-- mas, ainda, com o desafio de que possuíssem as propriedades de baixos custos energético e computacional, tão importantes para os dispositivos de IoT.
-
-
-\subsection{Protocolos em IoT e Modelo Publish/Subscribe}
-A Internet das Coisas, como o próprio nome dá a entender, faz parte da Internet, ou seja, utiliza, em geral, os protocolos TCP/IP para comunicação (TODO: REFERÊNCIA). Se por um lado TCP/IP são comuns mesmo no contexto de IoT, por outro, protocolos como HTTP e HTTPS, largamente utilizados nas demais camada Web da rede, não o são.
-
-Dessa forma, os protocolos utilizados para troca de dados na Web não se mostram adequados para a maioria das aplicações IoT, justamente devido a restrições como pouca largura de banda, latência, dentre outros (TODO: REFERÊNCIA).
-
-O modelo Publish/Subscribe é um dos modelos de comunicação mais largamente utilizados por dispositivos IoT, sobretudo em redes de sensores (TODO: REFERÊNCIA). Nesse modelo os clientes, máquinas que se comunicam, se conectam a um corretor, ou broker em inglês, e se inscrevem (TODO: subscribe) em tópicos. Os clientes podem ainda publicar (TODO: publish) mensagens em um ou mais tópicos, e todos os clientes que estiverem inscritos nesses tópicos receberão as mensagens.
-
-TODO: IBAGENS!
-
-Esse modelo permite que apenas o broker despenda uma quantidade considerável de recursos energéticos e computacionais \-- para armazenar as listas dos clientes inscritos, garantir níveis de qualidade de serviço, dentre outras tarefas, \-- enquanto os clientes somente enviam e recebem as mensagens, não precisando nem mesmo checar os tópicos ativamente (TODO: MELHORAR, REFERÊNCIA, BUSY WAIT).
-
-
-\subsection{MQTT}
-Criado em 1999 por Andy Stanford-Clark e Arlen Nipper, o MQTT, Message Queuing Telemetry Transfer, é um protocolo publish/subscribe  que tem como principal objetivo baixa utilização de banda da rede. O MQTT encontrou um mercado promissor ainda recentemente, com a popularização da Internet das Coisas.
-
-- qos
-- control packet types (mqtt header)
+Sendo assim, muito do desenvolvimento desses sistemas se deu pautado justamente na solução dessas limitações técnicas --- de energia, poder computacional, resistência a situações críticas etc. --- deixando de lado, no entanto, um importante aspecto do qualquer sistema computacional: segurança (TODO: REFERÊNCIA). 
 
 
 
 
 
-\subsection{DoS}
-Ataques de negação de serviço, em inglês Denial of Service, buscam desestabilizar um sistema de maneira que os clientes legítimos não consigam acessá-lo. Ataques DoS frequentemente utilizam ferramentas que realizam uma série requisições repetidas para o servidor alvo com vistas a ocupar canais de clientes legítimos e, assim, comprometer a disponibilidade do sistema.
-
-Apesar desse tipo de vulnerabilidade já ter sido explorada e estudada há anos, recentemente, por conta da popularização da Internet das Coisas, novos problemas relacionados a ela surgiram, sobretudo no que tange a IoT.
 
 
-\subsection{Mosquitto}
-O protocolo MQTT, assim como qualquer protocolo em redes de computadores, não é senão um conjunto de especificações padronizadas para comunicação de máquinas. Sendo assim, existem várias diferentes implementações do protocolo MQTT, cada qual com suas particularidades em relação a modos de armazenamento, algoritmos de decisão etc.
 
-O Mosquitto (TODO: REFERÊNCIA) é um projeto da organização Eclipse (TODO: REFERÊNCIA) que visa a implementar os componentes especificados no padrão do protocolo MQTT, dentre eles, destacam-se o corretor, Mosquitto broker, e o cliente, Paho.
+\section{Protocolos em IoT e Modelo Publish/Subscribe}
 
-- como funciona??
+A Internet das Coisas, como o próprio nome dá a entender, faz parte da Internet, ou seja, utiliza as mesmas vias de comunicação que as demais máquinas na rede. No entanto, se alguns protocolos, como o \sigla{TCP}{\textit{Transfer Control Protocol}} e o \sigla{IP}{\textit{Internet Protocol}}, em especial o IPv6, são frequentemente usados por dispositivos IoT, outros, como o \sigla{HTTP}{\textit{HyperText Transfer Protocol}} e sua versão criptografada --- o HTTPS ---, largamente utilizados na camada Web da rede, não o são. Com vistas a manter uma conexão mais leve, consumindo menos energia e recursos computacionais, IoT conta com uma série de protocolos alternativos ao HTTP para troca de mensagens, como por exemplo o MQTT (TODO: REFERÊNCIA).
+
+O modelo \emph{Publish/Subscribe} é um dos modelos de comunicação comumente utilizados por dispositivos IoT, sobretudo em redes de sensores (TODO: REFERÊNCIA). Conforme a \autoref{publish-subscribe}, nesse modelo os clientes --- máquinas que se comunicam --- se conectam a um corretor, ou \emph{broker} em inglês, e se inscrevem (\emph{subscribe}) em tópicos. Os clientes podem ainda publicar (\emph{publish}) mensagens em um ou mais tópicos. Assim, todos os clientes que estiverem inscritos nesses tópicos receberão as mensagens ali publicadas.
+
+
+\begin{figure}[htb]
+ \caption{Modelo Publish/Subscribe}
+ \label{publish-subscribe}
+ \centering
+ \includegraphics[scale=0.6]{images/publish-subscribe.png}
+ \fautor
+\end{figure}
+
+
+Esse modelo permite que o broker despenda uma quantidade maior de recursos energéticos e computacionais --- para armazenar as listas dos clientes inscritos, garantir níveis de qualidade de serviço, enviar publicações para clientes inscritos etc. --- enquanto os clientes somente enviam e recebem as mensagens quando necessário (TODO: REFERÊNCIA -> BUSY WAIT).
+
 
 
 
@@ -52,15 +38,17 @@ O Mosquitto (TODO: REFERÊNCIA) é um projeto da organização Eclipse (TODO: RE
 
 \section{Objetivos}
 
-- ataques DoS
-- implementar ataques
-- proof of concept de algumas ideias
-- vulnerabilidades antigas mas (possivelmente) ainda presentes
-- TCP SYN flooding
-- SSL apresenta grande overhead, por isso não vamos focar em ataques que exploram sistemas baseados em SSL
+Por conta do desenvolvimento desenfreado das tecnologias IoT, não tendo como objetivo a grande maioria dos aspectos de segurança, logo percebeu-se uma ampla gama de falhas em diversos protocolos de comunicação (TODO: REFERÊNCIA) projetados para esses sistemas, bem como ausência de implementação de criptografia e outras práticas de segurança, tão comuns em outras áreas da computação. Sendo assim, esse trabalho implementa dois ataques que causam negação de serviço em um dos protocolos mais largamente utilizados em dispositivos IoT --- mostrando que, de fato, essas falhas existem e podem ser facilmente exploradas.
+
+
+
+
+
+
 
 
 
 \section{Organização}
 
+Esta monografia começa por introduzir brevemente o conceito de Internet das Coisas, com foco no seu desenvolvimento e em como ele afetou os aspectos de segurança da informação nesse meio. Em seguida, apresentamos conceitos e tecnologias importantes que fazem parte do escopo dos ataques a serem implementados. Mostramos a implementação de dois ataques ao protocolo MQTT, comentando brevemente sobre medidas de mitigação e respectivas sofisticações dos ataques para superar essas medidas. Finalmente, apresentamos nossas conclusões sobre o trabalho e comentamos brevemente sobre alguns aspectos do curso de Ciências de Computação no \sigla{ICMC}{Instituto de Ciências Matemáticas e de Computação} do campus de São Carlos da \sigla{USP}{Universidade de São Paulo}.
 
