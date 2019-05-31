@@ -17,7 +17,7 @@
 	%spanish,			% idioma adicional para hifenização
 	%english,			% idioma adicional para hifenização
 	%brazil				% o último idioma é o principal do documento
-\documentclass[english]{packages/icmc}
+\documentclass[brazil]{packages/icmc}
 
 % ---
 % Pacotes Opcionais
@@ -34,12 +34,11 @@
 \titulo{Estudo de ataques DoS em redes MQTT}
 \autor[Cruz, G. M.]{Gabriel de Melo Cruz}
 \orientador[Orientadora:]{Profa. Dra.}{Kalinka Regina Lucas Jaquie Castelo Branco}
-\coorientador[Coorientadora:]{Doutoranda}{Mariana Rodrigues}
+%\coorientador[Coorientadora:]{Doutoranda}{Mariana Rodrigues}
 \curso{Computação}
 \area{Segurança em Redes de Computadores} % Área de concentração do trabalho
 \data{12}{06}{2019} % Data do depósito
 % ---
-
 
 % ---
 % RESUMOS
@@ -48,15 +47,15 @@
 % Resumo em português
 % conter no máximo 500 palavras
 \textoresumo{
-    Este trabalho é um breve modelo  para a escrita de monografias de qualificação, dissertações e teses utilizando o ambiente \LaTeX, de acordo com as normas exigidas pelo Instituto de Ciências Matemáticas e de Computação (ICMC), da Universidade de São Paulo (USP). Para a confecção deste modelo foi utilizado a última versão (1.9.2) do pacote de classes \textit{abnTeX2} que segue as normas da Associação Brasileira de Normas Técnicas. A elaboração de uma monografia, dissertação ou tese pode ser feita sobrescrevendo o conteúdo deste modelo. 
-    }{Modelo, Monografia de qualificação, Dissertação, Tese, Latex}
+    O desenvolvimento de tecnologias associadas à Internet das Coisas está hoje mais rápido do que nunca. Diante desse cenário de evolução desenfreada, simples práticas de segurança frequentemente não são contempladas, deixando esses sistemas expostos através de várias vulnerabilidades. Neste trabalho exploramos falhas que permitem desabilitar o serviço em um dos protocolos mais utilizados por sistemas IoT: o MQTT. A primeira vulnerabilidade explorada leva em conta a utilização do protocolo TCP -- que oferece ao MQTT o serviço de conexão e entrega de mensagens -- incapacitando a criação de novas conexões. Ainda, exploramos o limite de banda do servidor, ou broker, no protocolo MQTT, fazendo com que ele ocupe-a unicamente com as requisições do atacante. Os dois ataques aqui implementados, apesar de relativamente simples, são extremamente eficazes sobretudo devido à falta de implementações de software seguras em sistemas IoT.
+    }{IoT, Internet das Coisas, MQTT, Segurança, Ataque, Vulnerabilidade}
 
 % ---
 % resumo em inglês
 % ---
 \textoresumo[english]{
-    This paper is a brief model for writing qualification monographs, dissertations and thesis using \LaTeX environment, in accordance with the standards required by the Institute of Mathematics and Computer Sciences (ICMC), University of São Paulo (USP). For making this model, the latest version (1.9.2) \textit{abnTeX2} classes package was used. This package follow the rules of the Brazilian Association of Technical Standards. A drafting a monograph, dissertation or thesis can be done by overwriting the contents of this model.
-    }{Template, Qualification monograph, Dissertation, Thesis, Latex}
+    The development of technologies associated with the Internet of Things is faster than ever before. Facing this scenario of unbridled evolution, simple security practices are often not contemplated, leaving these systems exposed through numerous vulnerabilities. In this work we explore failures that allow us disable the service in one of the most used protocols on IoT systems: MQTT. The first exploited vulnerability makes use of a problem in the TCP protocol -- which provides MQTT with the connection and delivery of messages --, allowing us to prevent new connections on the server, or broker. We also exploit issues regarding the bandwidth limit of the broker, occupying it exclusively with the attacker's requests. Even though the two attacks implemented here are relatively simple, they are also extremely effective, mainly because of the lack of secure software implementations in IoT systems.
+    }{IoT, Internet of Things, MQTT, Security, Attack, Vulnerability}
     
 % ---
 % Configurações de aparência do PDF final
@@ -89,7 +88,7 @@
 
 % Inserir a ficha catalográfica
 %\incluifichacatalografica[tex/fichaCatalografica.pdf]
-\incluifichacatalografica
+%\incluifichacatalografica
 
 
 % Inserir folha de aprovação
@@ -104,13 +103,13 @@
 \incluilistadefiguras
 
 % Inclui a lista de tabelas
-\incluilistadetabelas
+%\incluilistadetabelas
 
 % Inclui a lista de quadros
-\incluilistadequadros
+%\incluilistadequadros
 
 % Inclui a lista de algoritmos
-\incluilistadealgoritmos
+%\incluilistadealgoritmos
 
 % Inclui a lista de códigos
 \incluilistadecodigos
@@ -119,7 +118,7 @@
 \incluilistadesiglas
 
 % Inclui a lista de símbolos
-\incluilistadesimbolos
+%\incluilistadesimbolos
 
 % ----
 % Início do documento
@@ -147,29 +146,11 @@
 \label{chapter:conclusao}
 \input{tex/capitulos/conclusao}
 
-\chapter{Orientações Gerais}
-\label{chapter:orientacoes-gerais}
-\input{tex/orientacoes-gerais}
 
-\chapter{Configuração dos Elementos Pré-Textuais}
-\label{chapter:config-pre-textual}
-\input{tex/config-pre-textual}
 
-\chapter{Corpos Flutuantes}
-\label{chapter:corpos-flutuantes}
-\input{tex/corpos-flutuantes}
-
-\chapter{Listas}
-\label{chapter:listas}
-\input{tex/listas}
-
-\chapter{Ferramentas Úteis}
-\label{chapter:ferramentas-uteis}
-\input{tex/ferramentas-uteis}
-
-\chapter{Citações e Referências}
-\label{chapter:citacoes}
-\input{tex/citacoes}
+%\chapter{Citações e Referências}
+%\label{chapter:citacoes}
+%\input{tex/citacoes}
 
 
 % ---
@@ -193,11 +174,11 @@
 % ---------------------------------------------------------------------
 
 % Arquivo que contém as definições que vão aparecer no glossário
-\input{tex/glossario}
+%\input{tex/glossario}
 % Comando para incluir todas as definições do arquivo glossario.tex
-\glsaddall
+%\glsaddall
 % Impressão do glossário
-\printglossaries
+%\printglossaries
 
 % ----------------------------------------------------------
 % Apêndices
@@ -208,9 +189,9 @@
 % ---
 \begin{apendicesenv}
 
-    \chapter{Documento Básico Usando a Classe icmc}
-    \label{chapter:documento-basico}
-    \input{tex/appendix/documento-basico}
+%\chapter{Documento Básico Usando a Classe icmc}
+%\label{chapter:documento-basico}
+%\input{tex/appendix/documento-basico}
 
 \end{apendicesenv}
 % ---
@@ -225,9 +206,9 @@
 % ---
 \begin{anexosenv}
 
-    \chapter{Páginas Interessantes na Internet} 
-    \label{chapter:paginas-interessantes}
-    \input{tex/annex/paginas-interessantes}
+%\chapter{Páginas Interessantes na Internet} 
+%\label{chapter:paginas-interessantes}
+%\input{tex/annex/paginas-interessantes}
 
 \end{anexosenv}
 % ---
